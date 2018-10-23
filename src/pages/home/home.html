@@ -2,13 +2,13 @@
 
 <ion-content class="fundo_home" padding>
   <div class="centroTotal">
-    <form novalidate>
+    <form [formGroup]="nickForm" novalidate>
         <h1 class="titulo">LITERA QUIZ</h1>
         <ion-label class="label"  stacked>Nickname</ion-label>
         <div id="divInput">
-            <ion-input class="input letraBranca"  type="text"></ion-input>
+            <ion-input formControlName="nick" class="input letraBranca"  type="text"></ion-input>
         </div>
-        <button color="light" ion-button block outline (click)="SlidePage()">COMEÇAR</button>
+        <button color="light" ion-button block outline (click)="FlipPage()">COMEÇAR</button>
     </form>
   </div>
 </ion-content>

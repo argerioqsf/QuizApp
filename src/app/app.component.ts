@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import firebase from 'firebase';
+import { FIREBASE_CREDENTIALS } from './credentials_firebase';
 
 @Component({
   templateUrl: 'app.html'
@@ -11,14 +13,17 @@ export class MyApp {
 
   rootPage: any = 'HomePage';
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{title: string, component: any,icone: any}>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
+    firebase.initializeApp(FIREBASE_CREDENTIALS);
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: 'HomePage' }
+      { title: 'Home', component: 'HomePage', icone:'home' },
+      { title: 'Ranking', component: 'ranking', icone:'md-podium' }
+
     ];
 
   }
