@@ -1,0 +1,7 @@
+{
+  "name": "LiteraQuiz",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
