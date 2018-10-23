@@ -1,3 +1,35 @@
 page-home {
+    .fundo_home{
+        background-color: rgb(45, 28, 92);
+    }
 
+    .label{
+        color: white;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .input{
+        background-color: rgb(40, 25, 83);
+    }
+
+    #divInput{
+        padding: 10px;
+    }
+
+    .logo{
+        height: 100px;
+        width: 200px;
+    }
+
+    .logoHome{
+        position: absolute;
+    }
+    
+    .titulo{
+        text-align: center;
+        color: white;
+        margin-top: 100px;
+        font-family: "Times New Roman", Times, serif;
+    }
 }
