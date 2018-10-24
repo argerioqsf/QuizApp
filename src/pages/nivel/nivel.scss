@@ -2,4 +2,32 @@ page-nivel {
     .fundo_nivel{
         background-color: rgb(45, 28, 92);
     }
+
+    #facil{
+        background-color: green;
+        height: 100%;
+        width: 20px;
+        border: 1px solid rgba(255, 0, 0, 0);
+        border-radius: 0px 0px 10px 10px;
+    }
+
+    #medio{
+        background-color: yellow;
+        height: 100%;
+        width: 20px;
+        border: 1px solid rgba(255, 0, 0, 0);
+        border-radius: 0px 0px 10px 10px;
+    }
+
+    #dificil{
+        background-color: red;
+        height: 100%;
+        width: 20px;
+        border: 1px solid rgba(255, 0, 0, 0);
+        border-radius: 0px 0px 10px 10px;
+    }
+
+    .nivel{
+        padding: 0px 0px 10px 10px;
+    }
 }

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { FirebaseProvider } from '../../providers/firebase/firebase';
 
 /**
  * Generated class for the NivelPage page.
@@ -17,8 +19,23 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class NivelPage {
   nick = null;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  niveis = [];
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              public splashScreen: SplashScreen,
+              private firebaseProvider: FirebaseProvider) { 
+    this.splashScreen.hide();
     this.nick = navParams.get("nick");
+    console.log("nick: ",this.nick);
+    this.Niveis();
+  }
+
+  Niveis(){
+    this.firebaseProvider.refOff("config/niveis");
+    this.firebaseProvider.refOn("config/niveis").on("value",niveis=>{
+      console.log("niveisSnap: ",niveis.val());
+      this.niveis = niveis.val();
+    });
   }
 
   ionViewDidLoad() {

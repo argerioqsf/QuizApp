@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import firebase from 'firebase';
 import { FIREBASE_CREDENTIALS } from './credentials_firebase';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 @Component({
   templateUrl: 'app.html'
@@ -11,13 +12,24 @@ import { FIREBASE_CREDENTIALS } from './credentials_firebase';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = 'HomePage';
+  rootPage: any;
 
   pages: Array<{title: string, component: any,icone: any}>;
-
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  nick = null;
+  constructor(public platform: Platform, 
+              public statusBar: StatusBar, 
+              public splashScreen: SplashScreen,
+              private nativeStorage: NativeStorage) {
     this.initializeApp();
     firebase.initializeApp(FIREBASE_CREDENTIALS);
+    this.nativeStorage.getItem('nick').then(data => {
+            this.nick = data;
+            this.nav.setRoot('nivel',{nick:data});
+          },
+          error => {
+            this.rootPage = 'HomePage';
+            this.nick = null;
+    });
 
     // used for an example of ngFor and navigation
     this.pages = [
@@ -33,6 +45,9 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
+      if (this.platform.is('android')) {
+          this.statusBar.styleBlackOpaque();
+      }
     });
   }
 

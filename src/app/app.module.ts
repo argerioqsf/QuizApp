@@ -8,6 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { NativePageTransitions } from '@ionic-native/native-page-transitions';
 import { FirebaseProvider } from '../providers/firebase/firebase';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { FirebaseProvider } from '../providers/firebase/firebase';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     NativePageTransitions,
-    FirebaseProvider
+    FirebaseProvider,
+    NativeStorage
   ]
 })
 export class AppModule {}
