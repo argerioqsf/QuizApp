@@ -33,6 +33,23 @@ export class FirebaseProvider {
 		});
   }
 
+  list(path){ 
+    return new Promise((resolve, reject)=>{
+			let list = [];
+			firebase.database().ref(path).once("value",userProfileSnapshot=>{
+				let result = userProfileSnapshot;
+				result.forEach(element => {
+					list.push(element.val());
+        });
+        //console.log("result/list: ",list);
+				resolve(list);
+			},error=>{
+        console.log("Erro/list: ",error);
+				resolve("Erro");
+			});
+		  });
+  }
+
   update(path,data){
       return firebase.database().ref(path).update(data);
   }

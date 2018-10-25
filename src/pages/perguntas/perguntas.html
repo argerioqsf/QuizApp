@@ -1,0 +1,41 @@
+
+<ion-header>
+    <ion-navbar color="app">
+            <ion-row>
+                <div id="menu-item">
+                  <img (click)="voltar()" id="voltar" src="assets/imgs/arrow-back_b.png"/>
+                </div>
+                <ion-title text-center *ngIf="nivel != null">{{nivel.toUpperCase()}}</ion-title>
+                <h4 class="pontos">Pontos: {{pontos}}</h4>
+            </ion-row>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="fundo_app">
+  <div *ngIf="iniciado == false" class="centroTotal">
+    <button (click)="comecar()" *ngIf="nivel == 'fácil'" ion-button round outline color="secondary">
+        {{botao}}
+      </button>
+      <button (click)="comecar()" *ngIf="nivel == 'médio'" ion-button round outline color="yell">
+        {{botao}}
+      </button>
+      <button (click)="comecar()" *ngIf="nivel == 'difícil'" ion-button round outline color="danger">
+        {{botao}}
+      </button>
+  </div>
+
+  <div *ngIf="iniciado == true && perguntas.length != 0">
+    <div class="cardInfo">
+        <h4><strong>{{pergunta.pergunta}}</strong></h4>
+    </div>
+    <div class="cardInfo">
+        <button ion-button block *ngFor="let opcao of pergunta.respostas" (click)="responder(opcao.letra)"> {{opcao.letra}} ) {{opcao.resposta}} </button>
+  </div>
+
+  </div>
+
+  <div class="centroTotal" *ngIf="perguntas.length == 0 && iniciado == true">
+    <h6 class="letraBranca">Sem perguntas disponiveis nesse nivel</h6>
+  </div>
+  
+</ion-content>

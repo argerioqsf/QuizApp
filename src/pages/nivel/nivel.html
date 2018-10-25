@@ -5,15 +5,25 @@
                 <img menuToggle id="menu" src="assets/imgs/menu_b.svg"/>
               </div>
               <ion-title text-center *ngIf="nick != null">{{nick.toUpperCase()}}</ion-title>
+              <h4 class="pontos">Pontos: {{pontos}}</h4>
           </ion-row>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content class="fundo_nivel" padding>
+<ion-content class="fundo_app" padding>
   <ion-list *ngFor="let nivel of niveis">
-    <ion-item color="appSecond" class="nivel">
-      <h1>NIVEL {{nivel}}</h1> <div *ngIf="nivel == 1" item-end id="facil"></div> <div *ngIf="nivel == 2" item-end id="medio"></div> <div *ngIf="nivel == 3" item-end id="dificil"></div>
+    <ion-item (click)="perguntas(nivel)" color="appSecond" class="nivel">
+      <h1>NIVEL {{nivel.toUpperCase()}}</h1> 
+      <div *ngIf="nivel == 'fácil'" item-end id="facil"></div> 
+      <div *ngIf="nivel == 'médio'" item-end id="medio"></div> 
+      <div *ngIf="nivel == 'difícil'" item-end id="dificil"></div>
     </ion-item>
   </ion-list>
+  <div *ngIf="niveis == null"  class="centro">
+      <ion-spinner id="spinner" color="light"  name="ios-small"></ion-spinner><br>
+  </div>
+  <div style="color: white;" *ngIf="niveis == null"  class="centro">
+      CARREGANDO NIVEIS
+  </div>
 </ion-content>

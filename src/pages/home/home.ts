@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, Platform, ViewController, ToastController } from 'ionic-angular';
 import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NativeStorage } from '@ionic-native/native-storage';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
+import { BackgroundMode } from '@ionic-native/background-mode';
 /**
  * Generated class for the HomePage page.
  *
@@ -21,6 +22,7 @@ import { FirebaseProvider } from '../../providers/firebase/firebase';
 })
 export class HomePage {
   
+  voltar = false;
   public nickForm: FormGroup;
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -30,13 +32,18 @@ export class HomePage {
               private alertCtrl: AlertController,
               private nativeStorage: NativeStorage,
               private firebaseProvider: FirebaseProvider,
-              private loadingCtrl: LoadingController) {
+              private loadingCtrl: LoadingController,
+              private platform: Platform,
+              private viewCtrl:ViewController,
+              private backgroundMode: BackgroundMode,
+              private toastCtrl: ToastController) {
               this.splashScreen.hide();
               this.nickForm = formBuilder.group({
                 nick: ["",
                     Validators.compose([Validators.maxLength(50), Validators.required])
                     ]
               });
+              this.backButton();
   }
 
   FlipPage() {
@@ -67,6 +74,7 @@ export class HomePage {
           this.nativeStorage.setItem('nick', this.nickForm.value.nick).then(() => {
             this.firebaseProvider.set("jogadores/"+this.nickForm.value.nick,{ 
               nick:this.nickForm.value.nick,
+              pontos:0
             }).then(()=>{
               ok = true;
               loading.dismiss();
@@ -98,6 +106,30 @@ export class HomePage {
       });
       alert.present();
     }
+  }
+
+  backButton(){
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        if(!this.viewCtrl.enableBack()) { 
+          if(this.voltar == false){
+            let toast = this.toastCtrl.create({
+              message:"pressione o botão voltar mais uma vez para sair do aplicativo",
+              duration:3000
+            });
+            this.voltar = true;
+            toast.present();
+            setTimeout(() => {
+              this.voltar = false;
+            }, 3000);
+          }else{
+            this.backgroundMode.moveToBackground();
+          }
+        }else{
+            this.navCtrl.pop();
+        } 
+      });
+    });
   }
 
   /*
