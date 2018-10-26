@@ -23,7 +23,7 @@ export class PerguntasPage {
   userInfo = null;
   perguntas = [];
   pergunta:any = [];
-  tempo = 60;
+  tempo = 30;
   pontos = 0;
   botao = "COMEÇAR";
   loading:any;
@@ -143,15 +143,76 @@ export class PerguntasPage {
     this.viewCtrl.dismiss();
   }
 
+  contagem(){
+    let that = this;
+    setTimeout(() => {
+      if(that.iniciado == true){
+        that.tempo = that.tempo - 1;
+        if (that.tempo <= 0) {
+          if(that.iniciado == true){
+            that.FimTempo();
+          }
+        }else{
+          that.contagem();
+        }
+      }else{
+        that.tempo = 30;
+      }
+    }, 1000);
+  }
+
+  ionViewDidLeave(){
+    this.firebaseProvider.refOff("perguntas/");
+    this.iniciado = false;
+    this.botao = "COMEÇAR";
+    this.tempo = 30;
+	}
+
   comecar(){
     this.iniciado = true;
+    this.tempo = 30;
+    this.contagem();
     // if (this.perguntas.length != 0) {
     //   this.pergunta = this.perguntas[0];
     //   console.log("pergunta: ",this.pergunta);
     // }
   }
 
+  FimTempo(){
+    console.log("pergunta: ",this.pergunta);
+    this.firebaseProvider.set("jogadores/"+this.nick+"/respondidos/"+this.pergunta.id,{
+      id:this.pergunta.id,
+      status:"errada"
+    }).then(()=>{
+      let alert = this.alertCtrl.create({
+        title:"Seu tempo acabou :(",
+        buttons:["OK"]
+      });
+      alert.present();
+      this.botao = "PRÓXIMO";
+      this.iniciado = false;
+      this.tempo = 30;
+    },error=>{
+      let alert = this.alertCtrl.create({
+        title:"Erro de comunicação com o servidor",
+        subTitle:"verifique sua internet",
+        buttons:["OK"]
+      });
+      alert.present();
+      this.iniciado = false;
+      this.botao = "COMEÇAR";
+      this.tempo = 30;
+    });
+  }
+
   responder(letra){
+    this.iniciado = false;
+    let loading = this.loadingCtrl.create({
+      spinner: 'ios',
+      duration: 30000
+    });
+    loading.present();
+    let ok = false;
     if(letra == this.pergunta.resposta){
       this.firebaseProvider.set("jogadores/"+this.nick+"/respondidos/"+this.pergunta.id,{
         id:this.pergunta.id,
@@ -178,6 +239,8 @@ export class PerguntasPage {
             alert.present();
             this.botao = "PRÓXIMO";
             this.iniciado = false;
+            ok = true;
+            loading.dismiss();
           });
         });
       },error=>{
@@ -188,6 +251,7 @@ export class PerguntasPage {
         });
         alert.present();
         this.iniciado = false;
+        loading.dismiss();
       });
 
     }else{
@@ -202,6 +266,8 @@ export class PerguntasPage {
         alert.present();
         this.botao = "PRÓXIMO";
         this.iniciado = false;
+        ok = true;
+        loading.dismiss();
       },error=>{
         let alert = this.alertCtrl.create({
           title:"Erro de comunicação com o servidor",
@@ -210,8 +276,23 @@ export class PerguntasPage {
         });
         alert.present();
         this.iniciado = false;
+        loading.dismiss();
       });
     }
+
+    
+    loading.onDidDismiss(() => {
+      console.log('Ok : ',ok);
+      if(ok == false){
+        let alert = this.alertCtrl.create({
+          title:"Houve um erro na comunicação com o servidor",
+          subTitle:"verifique sua internet",
+        });
+        alert.present();
+      }
+      if(ok == true){
+        }
+      });
   }
 
 

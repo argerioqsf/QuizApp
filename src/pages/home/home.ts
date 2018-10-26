@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController, Platform, ViewController, ToastController } from 'ionic-angular';
 import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
+import { Keyboard } from '@ionic-native/keyboard';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NativeStorage } from '@ionic-native/native-storage';
@@ -24,6 +25,7 @@ export class HomePage {
   
   voltar = false;
   public nickForm: FormGroup;
+  teclado = {'margin-top':'0px'};
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               formBuilder: FormBuilder,
@@ -36,12 +38,21 @@ export class HomePage {
               private platform: Platform,
               private viewCtrl:ViewController,
               private backgroundMode: BackgroundMode,
-              private toastCtrl: ToastController) {
+              private toastCtrl: ToastController,
+              private keyboard: Keyboard) {
               this.splashScreen.hide();
               this.nickForm = formBuilder.group({
                 nick: ["",
                     Validators.compose([Validators.maxLength(50), Validators.required])
                     ]
+              });
+              this.keyboard.onKeyboardShow().subscribe(status=>{
+                this.teclado = {'margin-top':'200px'};
+                console.log("abriu o teclado");
+              });
+              this.keyboard.onKeyboardHide().subscribe(status=>{
+                this.teclado = {'margin-top':'0px'};
+                console.log("abriu o teclado");
               });
               this.backButton();
   }

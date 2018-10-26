@@ -1,9 +1,9 @@
 
 
 <ion-content class="fundo_app" padding>
-  <div class="centroTotal">
+  <div [ngStyle]="teclado" class="centroTotal">
     <form [formGroup]="nickForm" novalidate>
-        <h1 class="titulo">LITERA QUIZ</h1>
+        <h1 class="titulo">READQUIZ</h1>
         <ion-label class="label"  stacked>Nickname</ion-label>
         <div id="divInput">
             <ion-input formControlName="nick" class="input letraBranca"  type="text"></ion-input>

@@ -26,12 +26,12 @@
 
   <div *ngIf="iniciado == true && perguntas.length != 0">
     <div class="cardInfo">
-        <h4><strong>{{pergunta.pergunta}}</strong></h4>
+        <h4 text-center><strong>{{pergunta.pergunta}}</strong></h4>
     </div>
     <div class="cardInfo">
-        <button ion-button block *ngFor="let opcao of pergunta.respostas" (click)="responder(opcao.letra)"> {{opcao.letra}} ) {{opcao.resposta}} </button>
+        <button color="appSecond" ion-button round *ngFor="let opcao of pergunta.respostas" (click)="responder(opcao.letra)"> {{opcao.letra}} ) {{opcao.resposta}} </button>
   </div>
-
+  <h1 text-center class="tempo">{{tempo}}</h1>
   </div>
 
   <div class="centroTotal" *ngIf="perguntas.length == 0 && iniciado == true">

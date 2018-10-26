@@ -10,6 +10,7 @@ import { NativePageTransitions } from '@ionic-native/native-page-transitions';
 import { FirebaseProvider } from '../providers/firebase/firebase';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { BackgroundMode } from '@ionic-native/background-mode';
+import { Keyboard } from '@ionic-native/keyboard';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     NativePageTransitions,
     FirebaseProvider,
     NativeStorage,
-    BackgroundMode
+    BackgroundMode,
+    Keyboard
   ]
 })
 export class AppModule {}
